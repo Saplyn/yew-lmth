@@ -53,6 +53,9 @@ impl Parse for Elem {
 
         let attrs = if input.peek(token::Paren) {
             eprintln!("[Elem::parse()] peeked paren"); // TODO
+            if tag == ElemTag::Fragment {
+                return Err(input.error("Fragment cannot have attributes."));
+            }
             let raw_attrs;
             parenthesized!(raw_attrs in input);
             Some(

@@ -27,7 +27,7 @@ pub struct Elem {
 }
 
 // TODO
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ElemTag {
     Regular(Ident), // e.g. p (`<p></p>`), img(`<img />`)
     Custom(Type),   // e.g. App (`<App></App>`), Switch<Route> (`<Switch<Route> />`)
