@@ -281,3 +281,32 @@ fn fragment_single_content() {
 
     assert_eq!(output, desired);
 }
+
+#[test]
+/// ! {
+///    p { "paragraph" }
+/// }
+fn fragment_multi_contents() {
+    let output = token_str(lmth(quote! {
+        ! {
+            p { "paragraph 1" }
+            p { "paragraph 2" }
+            p { "paragraph 3" }
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <>
+                <p>{ "paragraph 1" }</p>
+                <p>{ "paragraph 2" }</p>
+                <p>{ "paragraph 3" }</p>
+            </>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
