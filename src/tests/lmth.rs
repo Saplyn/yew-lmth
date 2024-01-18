@@ -242,7 +242,7 @@ fn compose_and_nested() {
 /// ! {}
 fn empty_fragment() {
     let output = token_str(_lmth(quote! {
-        ! {}
+        ! { }
     }));
 
     let desired = token_str(quote! {
