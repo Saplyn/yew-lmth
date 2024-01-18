@@ -32,12 +32,15 @@ impl LmthNode {
 
 impl Parse for LmthNode {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        match Self::peek_type(input) {
+        eprintln!("[LmthNode::parse()] input: {:#?}", input); // TODO
+        let res = match Self::peek_type(input) {
             Some(LmthNodeType::Elem) => Ok(Self::Elem(input.parse()?)),
             Some(LmthNodeType::Block) => Ok(Self::Block(input.parse()?)),
             Some(LmthNodeType::LitStr) => Ok(Self::LitStr(input.parse()?)),
             None => Err(input.error("[TODO; LmthNode::parse()] Invalid syntax!")),
-        }
+        };
+        eprintln!("[LmthNode::parse()] parsed result: {:#?}\n", res); // TODO
+        res
     }
 }
 
@@ -46,9 +49,10 @@ impl Parse for LmthNode {
 impl Parse for Elem {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         let tag = input.parse()?;
-        eprintln!("tag: {:#?}", tag); // TODO
+        eprintln!("[Elem::parse()] tag: {:#?}\n", tag); // TODO
 
         let attrs = if input.peek(token::Paren) {
+            eprintln!("[Elem::parse()] peeked paren"); // TODO
             let raw_attrs;
             parenthesized!(raw_attrs in input);
             Some(
@@ -60,9 +64,10 @@ impl Parse for Elem {
         } else {
             None
         };
-        eprintln!("attrs: {:#?}", attrs); // TODO
+        eprintln!("[Elem::parse()] attrs: {:#?}\n", attrs); // TODO
 
         let content = if input.peek(token::Brace) {
+            eprintln!("[Elem::parse()] peeked brace"); // TODO
             let mut content = Vec::new();
             let raw_content;
             braced!(raw_content in input);
@@ -73,7 +78,7 @@ impl Parse for Elem {
         } else {
             None
         };
-        eprintln!("content: {:#?}", content); // TODO
+        eprintln!("[Elem::parse()] content: {:#?}\n", content); // TODO
 
         Ok(Self {
             tag,
@@ -90,15 +95,15 @@ impl ElemTag {
         let input = input.fork();
 
         if input.peek(Token![!]) {
-            eprintln!("peeked !"); // TODO
+            eprintln!("[ElemTag::peek_type()] peeked !"); // TODO
             Some(ElemTagType::Fragment)
         } else if input.peek(Ident::peek_any) {
-            eprintln!("peeked ident"); // TODO
+            eprintln!("[ElemTag::peek_type()] peeked ident"); // TODO
             if input.peek2(Token![<]) {
-                eprintln!("peeked(2) <"); // TODO
+                eprintln!("[ElemTag::peek_type()] peeked(2) <"); // TODO
                 Some(ElemTagType::Custom)
             } else {
-                eprintln!("peeked(2) not <"); // TODO
+                eprintln!("[ElemTag::peek_type()] peeked(2) not <"); // TODO
                 Some(ElemTagType::Regular)
             }
         } else {
@@ -112,8 +117,11 @@ impl Parse for ElemTag {
         match Self::peek_type(input) {
             Some(ElemTagType::Regular) => Ok(Self::Regular(input.call(Ident::parse_any)?)),
             Some(ElemTagType::Custom) => Ok(Self::Custom(Type::parse(input)?)),
-            Some(ElemTagType::Fragment) => Ok(Self::Fragment),
-            None => Err(input.error("[TODO; ElemTag::parse()] Invalid syntax!")),
+            Some(ElemTagType::Fragment) => {
+                input.parse::<Token![!]>()?;
+                Ok(Self::Fragment)
+            }
+            None => Err(input.error("[TODO; ElemTag::parse()] Invalid syntax!")), // TODO
         }
     }
 }
