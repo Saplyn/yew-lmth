@@ -12,7 +12,7 @@ mod lmth;
 /// This function serves for testing & debuging perpose.
 /// its implementation should be keep in sync with `lmth!()`.
 /// In other words, this function is `lmth!()` but for testing.
-fn _lmth(input: TokenStream) -> TokenStream {
+fn lmth(input: TokenStream) -> TokenStream {
     eprintln!("[_lmth()] input: {:#?}\n", input); // TODO
 
     if input.is_empty() {

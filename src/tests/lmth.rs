@@ -3,7 +3,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use super::_lmth;
+use super::lmth;
 
 /// Converts a `proc_macro2::TokenStream` into a `String`
 fn token_str(input: TokenStream) -> String {
@@ -25,7 +25,7 @@ fn fn_token_str() {
 #[test]
 /// (empty)
 fn empty() {
-    let output = token_str(_lmth(quote! {}));
+    let output = token_str(lmth(quote! {}));
 
     let desired = token_str(quote! {
         yew::prelude::html! {}
@@ -40,7 +40,7 @@ fn empty() {
 #[test]
 /// p { }
 fn no_attr() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         p { }
     }));
 
@@ -57,7 +57,7 @@ fn no_attr() {
 #[test]
 /// img
 fn void_no_attr() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         img
     }));
 
@@ -74,7 +74,7 @@ fn void_no_attr() {
 #[test]
 /// img ( src: "/path/to/pic.jpg" )
 fn void_signle_dyn_attr() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         img ( src: "/path/to/pic.jpg" )
     }));
 
@@ -91,7 +91,7 @@ fn void_signle_dyn_attr() {
 #[test]
 /// button ( type: "button" ) { }
 fn single_dyn_attr_no_content() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         button ( type: "button" ) { }
     }));
 
@@ -110,7 +110,7 @@ fn single_dyn_attr_no_content() {
 #[test]
 /// button ( type: "button" ) { "I'm a button" }
 fn single_dyn_attr_with_content() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         button ( type: "button" ) { "I'm a button" }
     }));
 
@@ -133,7 +133,7 @@ fn single_dyn_attr_with_content() {
 ///     p { "paragraph 3" }
 /// }
 fn child_elems() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         div {
             p { "paragraph 1" }
             p { "paragraph 2" }
@@ -167,7 +167,7 @@ fn child_elems() {
 ///     }
 /// }
 fn deeply_nested() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         div {
             div {
                 div {
@@ -206,7 +206,7 @@ fn deeply_nested() {
 ///     p { "composed outer" }
 /// }
 fn compose_and_nested() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         div {
             div {
                 div {
@@ -241,7 +241,7 @@ fn compose_and_nested() {
 #[test]
 /// ! {}
 fn empty_fragment() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         ! { }
     }));
 
@@ -262,7 +262,7 @@ fn empty_fragment() {
 ///    p { "paragraph" }
 /// }
 fn fragment_single_content() {
-    let output = token_str(_lmth(quote! {
+    let output = token_str(lmth(quote! {
         ! {
             p { "paragraph" }
         }
