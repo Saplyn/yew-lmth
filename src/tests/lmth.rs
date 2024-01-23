@@ -316,13 +316,13 @@ fn fragment_multi_contents() {
 #[test]
 /// div {
 ///     button ( onclick: onclick ) { "+1" }
-///     p {{ *counter }}
+///     p { {*counter} }
 /// }
 fn simple_code_content() {
     let output = token_str(lmth(quote! {
         div {
             button ( onclick: onclick ) { "+1" }
-            p {{ *counter }}
+            p { {*counter} }
         }
     }));
 
