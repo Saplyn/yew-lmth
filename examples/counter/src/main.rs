@@ -1,69 +1,23 @@
-use gloo::console;
-use js_sys::Date;
-use yew::{Component, Context, Html};
+use yew::prelude::*;
 use yew_lmth::lmth;
 
-// Define the possible messages which can be sent to the component
-pub enum Msg {
-    Increment,
-    Decrement,
-}
-
-pub struct App {
-    value: i64, // This will store the counter value
-}
-
-impl Component for App {
-    type Message = Msg;
-    type Properties = ();
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Self { value: 0 }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            Msg::Increment => {
-                self.value += 1;
-                console::log!("plus one"); // Will output a string to the browser console
-                true // Return true to cause the displayed change to update
-            }
-            Msg::Decrement => {
-                self.value -= 1;
-                console::log!("minus one");
-                true
-            }
+#[function_component]
+fn App() -> Html {
+    let counter = use_state(|| 0);
+    let onclick = {
+        let counter = counter.clone();
+        move |_| {
+            let value = *counter + 1;
+            counter.set(value);
         }
-    }
+    };
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        lmth! {
-            div {
-                div (class: "panel") {
-                    // A button to send the Increment message
-                    button (
-                        class: "button",
-                        onclick: ctx.link().callback(|_| Msg::Increment)
-                    ) { "+1" }
-
-                    // A button to send the Decrement message
-                    button (onclick: ctx.link().callback(|_| Msg::Increment)) { "-1" }
-
-                    button (
-                        onclick: ctx.link().batch_callback(|_| vec![Msg::Increment, Msg::Increment])
-                    ) { "+1 +1" }
-                }
-
-                // Display the current value of the counter
-                p (class: "counter") { {self.value} }
-
-                // Display the current date and time the page was rendered
-                p (class: "footer") {
-                    "Rendered: " { String::from(Date::new_0().to_string()) }
-                }
-            }
+    lmth!(
+        div {
+            button ( onclick ) { "+1" }
+            p { {*counter} }
         }
-    }
+    )
 }
 
 fn main() {
