@@ -10,7 +10,7 @@ use crate::lmth::lmth_act;
 mod lmth;
 
 /// This function serves for testing & debuging perpose.
-/// its implementation should be keep in sync with `lmth!()`.
+/// Its implementation should be keep in sync with `lmth!()`.
 /// In other words, this function is `lmth!()` but for testing.
 fn lmth(input: TokenStream) -> TokenStream {
     eprintln!("[_lmth()] input: {:#?}\n", input); // TODO
