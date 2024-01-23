@@ -21,4 +21,4 @@ syn = { version = "2.0.48", features = ["extra-traits", "full"] }
 # Exmaples workspace
 [workspace]
 resolver = "2"
-members = ["examples/counter", "examples/hello_world"]
+members = ["examples/counter", "examples/hello_world", "examples/routing"]
