@@ -46,7 +46,7 @@ pub enum ElemTagType {
 pub enum ElemAttr {
     Bind(ElemAttrBind), // e.g. attr: expr
     Copy(ElemAttrCopy), // e.g. attr="litstr"
-    Sugar(Ident),       // e.g. attr (shorthand for attr: attr)
+    Sugar(Ident),       // e.g. attr (shorthand for {attr})
 }
 
 // TODO
