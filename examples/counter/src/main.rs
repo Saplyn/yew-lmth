@@ -55,7 +55,7 @@ impl Component for App {
                 }
 
                 // Display the current value of the counter
-                p (class: "counter") {{ self.value }}
+                p (class: "counter") { {self.value} }
 
                 // Display the current date and time the page was rendered
                 p (class: "footer") {
