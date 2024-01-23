@@ -9,7 +9,10 @@ use syn::{
     Block, Expr, Ident, LitStr, Token, Type,
 };
 
-use super::ir::{Elem, ElemAttr, ElemAttrVal, ElemTag, ElemTagType, LmthNode, LmthNodeType};
+use super::ir::{
+    Elem, ElemAttr, ElemAttrBind, ElemAttrCopy, ElemAttrVal, ElemTag, ElemTagType, LmthNode,
+    LmthNodeType,
+};
 
 //~ impl for LmthNode
 
@@ -133,10 +136,42 @@ impl Parse for ElemTag {
 
 impl Parse for ElemAttr {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        let key = input.call(Ident::parse_any)?;
+        if input.peek2(Token![:]) {
+            Ok(Self::Bind(ElemAttrBind::parse(input)?))
+        } else if input.peek2(Token![=]) {
+            Ok(Self::Copy(ElemAttrCopy::parse(input)?))
+        } else if input.peek2(Token![,]) {
+            Ok(Self::Sugar(Ident::parse_any(input)?))
+        } else {
+            let ident = Ident::parse_any(input)?;
+            if !input.is_empty() {
+                Err(input.error("[TODO; ElemAttr::parse()] Invalid syntax!")) // TODO
+            } else {
+                Ok(Self::Sugar(ident))
+            }
+        }
+    }
+}
+
+//~ impl for ElemAttrBind
+
+impl Parse for ElemAttrBind {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let key = Ident::parse_any(input)?;
         input.parse::<Token![:]>()?;
         let val = input.parse()?;
         Ok(Self { key, val })
+    }
+}
+
+//~ impl for ElemAttrCopy
+
+impl Parse for ElemAttrCopy {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let key = Ident::parse_any(input)?;
+        input.parse::<Token![=]>()?;
+        let litstr = input.parse()?;
+        Ok(Self { key, litstr })
     }
 }
 

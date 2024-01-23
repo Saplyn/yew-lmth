@@ -43,9 +43,24 @@ pub enum ElemTagType {
 
 // TODO
 #[derive(Debug)]
-pub struct ElemAttr {
+pub enum ElemAttr {
+    Bind(ElemAttrBind), // e.g. attr: expr
+    Copy(ElemAttrCopy), // e.g. attr="litstr"
+    Sugar(Ident),       // e.g. attr (shorthand for attr: attr)
+}
+
+// TODO
+#[derive(Debug)]
+pub struct ElemAttrBind {
     pub key: Ident,       // `attr`: val
     pub val: ElemAttrVal, // attr: `val`
+}
+
+// TODO
+#[derive(Debug)]
+pub struct ElemAttrCopy {
+    pub key: Ident,     // `attr`="litstr"
+    pub litstr: LitStr, // attr=`"litstr"`
 }
 
 // TODO

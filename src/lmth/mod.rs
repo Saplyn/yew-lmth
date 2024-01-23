@@ -5,7 +5,7 @@ use quote::quote;
 
 use crate::lmth::ir::{ElemAttr, ElemAttrVal, ElemTag};
 
-use self::ir::{Elem, LmthNode};
+use self::ir::{Elem, ElemAttrBind, ElemAttrCopy, LmthNode};
 
 pub mod ir;
 pub mod parse;
@@ -52,18 +52,26 @@ fn elem_act(elem: Elem) -> TokenStream {
 
     let mut quoted_attrs = quote! {};
     if let Some(attrs) = elem.attrs {
-        for ElemAttr { key, val } in attrs {
-            quoted_attrs = match val {
-                ElemAttrVal::Block(block) => {
-                    quote! {
-                        #quoted_attrs #key=#block
+        for attr in attrs {
+            quoted_attrs = match attr {
+                ElemAttr::Bind(ElemAttrBind { key, val }) => match val {
+                    ElemAttrVal::Block(block) => {
+                        quote! {
+                            #quoted_attrs #key=#block
+                        }
                     }
-                }
-                ElemAttrVal::Expr(expr) => {
-                    quote! {
-                        #quoted_attrs #key={ #expr }
+                    ElemAttrVal::Expr(expr) => {
+                        quote! {
+                            #quoted_attrs #key={ #expr }
+                        }
                     }
-                }
+                },
+                ElemAttr::Copy(ElemAttrCopy { key, litstr }) => quote! {
+                    #quoted_attrs #key=#litstr
+                },
+                ElemAttr::Sugar(ident) => quote! {
+                    #quoted_attrs { #ident }
+                },
             }
         }
     }

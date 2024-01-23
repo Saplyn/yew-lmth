@@ -340,3 +340,60 @@ fn simple_code_content() {
 
     assert_eq!(output, desired);
 }
+
+#[test]
+/// button ( onclick ) { "+1" }
+fn attr_sugar_single_attr() {
+    let output = token_str(lmth(quote! {
+        button ( onclick ) { "+1" }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <button {onclick}>{ "+1" }</button>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
+
+#[test]
+/// button ( onclick, onmouseenter, onmouseleave ) { "+1" }
+fn attr_sugar_multi_attrs() {
+    let output = token_str(lmth(quote! {
+        button ( onclick, onmouseenter, onmouseleave ) { "+1" }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <button {onclick} {onmouseenter} {onmouseleave}>{ "+1" }</button>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
+
+#[test]
+/// button ( class="class class" ) { "+1" }
+fn attr_bind() {
+    let output = token_str(lmth(quote! {
+        button ( class="class class" ) { "+1" }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <button class="class class">{ "+1" }</button>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
