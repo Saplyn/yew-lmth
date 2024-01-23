@@ -17,3 +17,8 @@ proc-macro = true
 proc-macro2 = "1.0.76"
 quote = "1.0.35"
 syn = { version = "2.0.48", features = ["extra-traits", "full"] }
+
+# Exmaples workspace
+[workspace]
+resolver = "2"
+members = ["examples/counter", "examples/hello_world"]

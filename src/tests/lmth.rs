@@ -310,3 +310,31 @@ fn fragment_multi_contents() {
 
     assert_eq!(output, desired);
 }
+
+#[test]
+/// div {
+///     button ( onclick: onclick ) { "+1" }
+///     p {{ *counter }}
+/// }
+fn simple_code_content() {
+    let output = token_str(lmth(quote! {
+        div {
+            button ( onclick: onclick ) { "+1" }
+            p {{ *counter }}
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <div>
+                <button onclick={onclick}>{ "+1" }</button>
+                <p>{ *counter }</p>
+            </div>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
