@@ -284,7 +284,9 @@ fn fragment_single_content() {
 
 #[test]
 /// ! {
-///    p { "paragraph" }
+///    p { "paragraph 1" }
+///    p { "paragraph 2" }
+///    p { "paragraph 3" }
 /// }
 fn fragment_multi_contents() {
     let output = token_str(lmth(quote! {
