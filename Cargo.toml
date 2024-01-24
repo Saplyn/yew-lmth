@@ -5,7 +5,6 @@ edition = "2021"
 authors = ["QiSheng Liu <saplynx@outlook.com>"]
 description = "A macro crate for writing HTML-like syntax for Yew application, inspired by Sycamore and Dioxus."
 repository = "https://github.com/Saplyn/yew-lmth"
-documentation = ""                                                                                               # TODO
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
