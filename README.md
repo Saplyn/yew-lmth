@@ -2,6 +2,21 @@
 
 A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) application, which will be translated into a corresponding `yew::prelude::html!()` macro. Syntax highly inspired by [Sycamore](https://sycamore-rs.netlify.app) and [Dioxus](https://dioxuslabs.com/).
 
+## Features
+
+- **Basic Tags**
+  - [x] **Types**: built-in, component, generic, void (non-closing).
+  - [x] **Attributes**: string literal, expression or code block binding.
+  - [x] **Content**: tag children, string literal, or code block.
+- **Yew**
+  - [x] **[Fragment tag](https://yew.rs/docs/concepts/html/fragments)**: `! { ... }`
+  - [ ] **[Conditional rendering](https://yew.rs/docs/concepts/html/conditional-rendering)**: NOT YET IMPLEMENTED
+  - [ ] **[Dynamic tag names](https://yew.rs/docs/concepts/html/elements#dynamic-tag-names)**: NOT YET IMPLEMENTED
+  - [ ] **[List rendering](https://yew.rs/docs/concepts/html/lists)**: not tested
+- **Others**
+  - [ ] **[Tag classes](https://yew.rs/docs/concepts/html/classes)**: not tested
+  - [ ] **[Inner HTML](https://github.com/yewstack/yew/tree/master/examples/inner_html)**: NOT IMPLEMENTED
+
 ## Syntax
 
 ### Tags
