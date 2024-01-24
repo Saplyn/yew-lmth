@@ -38,7 +38,7 @@ impl Parse for LmthNode {
             Some(LmthNodeType::Elem) => Ok(Self::Elem(input.parse()?)),
             Some(LmthNodeType::Block) => Ok(Self::Block(input.parse()?)),
             Some(LmthNodeType::LitStr) => Ok(Self::LitStr(input.parse()?)),
-            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // TODO
+            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // FIXME
         }
     }
 }
@@ -113,7 +113,7 @@ impl Parse for ElemTag {
                 input.parse::<Token![!]>()?;
                 Ok(Self::Fragment)
             }
-            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // TODO
+            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // FIXME
         }
     }
 }
