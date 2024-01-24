@@ -13,8 +13,6 @@ mod lmth;
 /// Its implementation should be keep in sync with `lmth!()`.
 /// In other words, this function is `lmth!()` but for testing.
 fn lmth(input: TokenStream) -> TokenStream {
-    eprintln!("[_lmth()] input: {:#?}\n", input); // TODO
-
     if input.is_empty() {
         return quote! {
             yew::prelude::html! {}

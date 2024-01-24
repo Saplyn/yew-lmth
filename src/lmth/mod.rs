@@ -11,8 +11,6 @@ pub mod ir;
 pub mod parse;
 
 pub fn lmth_act(node: LmthNode) -> TokenStream {
-    eprintln!("node: {:#?}", node); // TODO
-
     let LmthNode::Elem(elem) = node else {
         panic!("The root of `lmth!` must be an element or a yew fragment `! {{}}`");
     };
