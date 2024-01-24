@@ -1180,7 +1180,7 @@ dependencies = [
 
 [[package]]
 name = "yew-lmth"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
