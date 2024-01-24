@@ -50,6 +50,8 @@ Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 
 ## Example
 
+Please refer to [GitHub repo's examples folder](https://github.com/Saplyn/yew-lmth/tree/main/examples).
+
 ```rust
 use yew_lmth::lmth;
 
