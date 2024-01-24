@@ -1,3 +1,5 @@
+# NOTE: This crate is not yet fully developed, and may be buggy. NOT recommended for production use.
+
 # Yew LMTH
 
 A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) application, which will be translated into a corresponding `yew::prelude::html!()` macro. Syntax highly inspired by [Sycamore](https://sycamore-rs.netlify.app) and [Dioxus](https://dioxuslabs.com/).
