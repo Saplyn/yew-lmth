@@ -2,6 +2,7 @@
 name = "yew-lmth"
 version = "0.0.0"
 edition = "2021"
+license = "MIT OR Apache-2.0"
 authors = ["QiSheng Liu <saplynx@outlook.com>"]
 description = "A macro crate for writing HTML-like syntax for Yew application, inspired by Sycamore and Dioxus."
 repository = "https://github.com/Saplyn/yew-lmth"
