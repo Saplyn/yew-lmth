@@ -9,7 +9,7 @@ use crate::lmth::lmth_act;
 #[cfg(test)]
 mod lmth;
 
-/// This function serves for testing & debuging perpose.
+/// This function serves for testing & debugging purpose.
 /// Its implementation should be keep in sync with `lmth!()`.
 /// In other words, this function is `lmth!()` but for testing.
 fn lmth(input: TokenStream) -> TokenStream {

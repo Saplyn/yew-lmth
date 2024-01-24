@@ -6,7 +6,7 @@ A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) applicatio
 
 ### Tags
 
-| `lmth!` syntax        | meaning                         | `html!` sytax              |
+| `lmth!` syntax        | meaning                         | `html!` syntax              |
 | --------------------- | ------------------------------- | -------------------------- |
 | `! { ... }`           | Yew's fragment                  | `<> ... </>`               |
 | `tag (attrs) { ... }` | Tag with attributes and content | `<tag attrs>{ ... }</tag>` |
@@ -18,7 +18,7 @@ A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) applicatio
 
 Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 
-| `lmth!` syntax  | meaning                                | `html!` sytax  |
+| `lmth!` syntax  | meaning                                | `html!` syntax  |
 | --------------- | -------------------------------------- | -------------- |
 | `attr: expr`    | Attribute with expression as value     | `attr={expr}`  |
 | `attr: {code}`  | Attribute with code block as value     | `attr={code}`  |
@@ -27,7 +27,7 @@ Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 
 ### Content
 
-| `lmth!` syntax  | meaning                   | `html!` sytax     |
+| `lmth!` syntax  | meaning                   | `html!` syntax     |
 | --------------- | ------------------------- | ----------------- |
 | `{code}`        | Code as content           | `{code}`          |
 | `"litstr"`      | Literal string as content | `"litstr"`        |
