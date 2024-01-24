@@ -1,4 +1,38 @@
-// TODO
+//! # Yew Lmth
+//!
+//! A macro crate for writing HTML-like syntax, which will be translated into a corresponding `yew::prelude::html!()` macro.
+//!
+//! ## Syntax
+//!
+//! ### Tags
+//!
+//! | `lmth!` syntax        | meaning                         | `html!` sytax              |
+//! | --------------------- | ------------------------------- | -------------------------- |
+//! | `! { ... }`           | Yew's fragment                  | `<> ... </>`               |
+//! | `tag (attrs) { ... }` | Tag with attributes and content | `<tag attrs>{ ... }</tag>` |
+//! | `tag (attrs)`         | Void tag with attributes        | `<tag attrs />`            |
+//! | `tag { ... }`         | Tag with content                | `<tag>{ ... }</tag>`       |
+//! | `tag`                 | Void tag with no attribute      | `<tag />`                  |
+//!
+//! ### Attributes
+//!
+//! Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
+//!
+//! | `lmth!` syntax  | meaning                                | `html!` sytax  |
+//! | --------------- | -------------------------------------- | -------------- |
+//! | `attr: expr`    | Attribute with expression as value     | `attr={expr}`  |
+//! | `attr: {code}`  | Attribute with code block as value     | `attr={code}`  |
+//! | `attr="litstr"` | Attribute with literal string as value | `attr="litstr"`|
+//! | `attr`          | Shorthand for `{attr}` in yew          | `{attr}`       |
+//!
+//! ### Content
+//!
+//! | `lmth!` syntax  | meaning                   | `html!` sytax     |
+//! | --------------- | ------------------------- | ----------------- |
+//! | `{code}`        | Code as content           | `{code}`          |
+//! | `"litstr"`      | Literal string as content | `"litstr"`        |
+//! | `tag ...`       | Tag                       | corresponding tag |
+//!
 
 use lmth::{ir::LmthNode, lmth_act};
 use proc_macro as pm;
