@@ -3,69 +3,88 @@
 use proc_macro2::Ident;
 use syn::{Block, Expr, LitStr, Type};
 
-// TODO
+/// A node of `lmth!` macro.
 #[derive(Debug)]
 pub enum LmthNode {
-    Elem(Elem),     // e.g. tag ( ... ) { ... }
-    Block(Block),   // e.g. { expr; expr; expr }
-    LitStr(LitStr), // e.g. "litstr"
+    /// e.g. `tag ( ... ) { ... }`
+    Elem(Elem),
+    /// e.g. `{ expr; expr; expr }`
+    Block(Block),
+    /// e.g. `"litstr"`
+    LitStr(LitStr),
 }
 
-// TODO
+/// Type of `LmthNode`.
+#[derive(Debug)]
 pub enum LmthNodeType {
     Elem,
     Block,
     LitStr,
 }
 
-// TODO
+/// An element.
 #[derive(Debug)]
 pub struct Elem {
-    pub tag: ElemTag,                   // `tag` (attr: "val") { ... }
-    pub attrs: Option<Vec<ElemAttr>>,   // tag `(attr: "val")` { ... }
-    pub content: Option<Vec<LmthNode>>, // tag (attr: "val") `{ ... }`
+    /// **`tag`** `(attr: "val")` `{ ... }`
+    pub tag: ElemTag,
+    /// `tag` **`(attr: "val")`** `{ ... }`
+    pub attrs: Option<Vec<ElemAttr>>,
+    /// `tag` `(attr: "val")` **`{ ... }`**
+    pub content: Option<Vec<LmthNode>>,
 }
 
-// TODO
+/// An element tag.
 #[derive(Debug, PartialEq)]
 pub enum ElemTag {
-    Regular(Ident), // e.g. p (`<p></p>`), img(`<img />`)
-    Custom(Type),   // e.g. App (`<App></App>`), Switch<Route> (`<Switch<Route> />`)
-    Fragment,       // yew's fragments ! (empty tag `<></>`)
+    /// e.g. p (`<p></p>`), img(`<img />`)
+    Regular(Ident),
+    /// e.g. App (`<App></App>`), Switch<Route> (`<Switch<Route> />`)
+    Custom(Type),
+    /// yew's fragments ! (empty tag `<></>`)
+    Fragment,
 }
 
-// TODO
+/// Type of `ElemTag`.
 pub enum ElemTagType {
     Regular,
     Custom,
     Fragment,
 }
 
-// TODO
+/// An element's attribute.
 #[derive(Debug)]
 pub enum ElemAttr {
-    Bind(ElemAttrBind), // e.g. attr: expr
-    Copy(ElemAttrCopy), // e.g. attr="litstr"
-    Sugar(Ident),       // e.g. attr (shorthand for {attr})
+    /// e.g. `attr: expr`
+    Bind(ElemAttrBind),
+    /// e.g. `attr="litstr"`
+    Copy(ElemAttrCopy),
+    /// e.g. `attr (shorthand for {attr})`
+    Sugar(Ident),
 }
 
-// TODO
+/// An element's attribute: bind syntax.
 #[derive(Debug)]
 pub struct ElemAttrBind {
-    pub key: Ident,       // `attr`: val
-    pub val: ElemAttrVal, // attr: `val`
+    /// **`attr`**`: val`
+    pub key: Ident,
+    /// `attr: `**`val`**
+    pub val: ElemAttrVal,
 }
 
-// TODO
+/// An element's attribute: copy syntax.
 #[derive(Debug)]
 pub struct ElemAttrCopy {
-    pub key: Ident,     // `attr`="litstr"
-    pub litstr: LitStr, // attr=`"litstr"`
+    /// **`attr`**`="litstr"`
+    pub key: Ident,
+    /// `attr=`**`"litstr"`**
+    pub litstr: LitStr,
 }
 
-// TODO
+/// An element's attribute's value.
 #[derive(Debug)]
 pub enum ElemAttrVal {
-    Expr(Expr),   // attr: expr, attr: "lit"
-    Block(Block), // attr: { expr; expr; expr }
+    /// `attr: expr`, `attr: "lit"`
+    Expr(Expr),
+    /// `attr: { expr; expr; expr }`
+    Block(Block),
 }
