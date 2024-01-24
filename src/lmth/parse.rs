@@ -1,4 +1,4 @@
-// TODO
+//! Parsing utilities for `lmth` macro.
 
 use syn::{
     braced,
