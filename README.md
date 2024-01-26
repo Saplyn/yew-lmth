@@ -1,5 +1,3 @@
-# NOTE: This crate is not yet fully developed, and may be buggy. NOT recommended for production use.
-
 # Yew LMTH
 
 A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) application, highly inspired by [Sycamore](https://sycamore-rs.netlify.app) and [Dioxus](https://dioxuslabs.com/). It works by translating it into a corresponding `yew::prelude::html!()` macro.
@@ -12,8 +10,8 @@ A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) applicatio
   - [x] **Content**: tag children, string literal, or code block.
 - **Yew**
   - [x] **[Fragment tag](https://yew.rs/docs/concepts/html/fragments)**: `! { ... }`
+  - [x] **[Dynamic tag names](https://yew.rs/docs/concepts/html/elements#dynamic-tag-names)**: `@{expr} ( ... ) { ... }`
   - [ ] **[Conditional rendering](https://yew.rs/docs/concepts/html/conditional-rendering)**: NOT YET IMPLEMENTED
-  - [ ] **[Dynamic tag names](https://yew.rs/docs/concepts/html/elements#dynamic-tag-names)**: NOT YET IMPLEMENTED
   - [ ] **[List rendering](https://yew.rs/docs/concepts/html/lists)**: not tested
 - **Others**
   - [ ] **[Tag classes](https://yew.rs/docs/concepts/html/classes)**: not tested
