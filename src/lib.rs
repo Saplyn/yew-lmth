@@ -6,9 +6,10 @@
 //!
 //! ### Tags
 //!
-//! | `lmth!` syntax        | meaning                         | `html!` syntax              |
+//! | `lmth!` syntax        | meaning                         | `html!` syntax             |
 //! | --------------------- | ------------------------------- | -------------------------- |
 //! | `! { ... }`           | Yew's fragment                  | `<> ... </>`               |
+//! | `@{expr} { ... }`     | Dynamicly named tag             | `<@{expr}> ... </@>`       |
 //! | `tag (attrs) { ... }` | Tag with attributes and content | `<tag attrs>{ ... }</tag>` |
 //! | `tag (attrs)`         | Void tag with attributes        | `<tag attrs />`            |
 //! | `tag { ... }`         | Tag with content                | `<tag>{ ... }</tag>`       |
@@ -18,7 +19,7 @@
 //!
 //! Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 //!
-//! | `lmth!` syntax  | meaning                                | `html!` syntax  |
+//! | `lmth!` syntax  | meaning                                | `html!` syntax |
 //! | --------------- | -------------------------------------- | -------------- |
 //! | `attr: expr`    | Attribute with expression as value     | `attr={expr}`  |
 //! | `attr: {code}`  | Attribute with code block as value     | `attr={code}`  |
@@ -27,7 +28,7 @@
 //!
 //! ### Content
 //!
-//! | `lmth!` syntax  | meaning                   | `html!` syntax     |
+//! | `lmth!` syntax  | meaning                   | `html!` syntax    |
 //! | --------------- | ------------------------- | ----------------- |
 //! | `{code}`        | Code as content           | `{code}`          |
 //! | `"litstr"`      | Literal string as content | `"litstr"`        |
