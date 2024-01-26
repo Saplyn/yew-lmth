@@ -48,6 +48,13 @@ Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 | `"litstr"`      | Literal string as content | `"litstr"`        |
 | `tag ...`       | Tag                       | corresponding tag |
 
+### Conditional rendering
+
+| `lmth!` syntax          | meaning                   | `html!` syntax          |
+| ----------------------- | ------------------------- | ----------------------- |
+| `if {code} { ... }`     | Conditional rendering     | `if {code} { ... }`     |
+| `if let {code} { ... }` | Conditional rendering     | `if let {code} { ... }` |
+
 ## Example
 
 Please refer to [GitHub repo's examples folder](https://github.com/Saplyn/yew-lmth/tree/main/examples).

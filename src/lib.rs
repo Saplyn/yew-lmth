@@ -34,6 +34,12 @@
 //! | `"litstr"`      | Literal string as content | `"litstr"`        |
 //! | `tag ...`       | Tag                       | corresponding tag |
 //!
+//! ### Conditional rendering
+//!
+//! | `lmth!` syntax          | meaning                   | `html!` syntax          |
+//! | ----------------------- | ------------------------- | ----------------------- |
+//! | `if {code} { ... }`     | Conditional rendering     | `if {code} { ... }`     |
+//! | `if let {code} { ... }` | Conditional rendering     | `if let {code} { ... }` |
 
 use lmth::{ir::LmthNode, lmth_act};
 use proc_macro as pm;
