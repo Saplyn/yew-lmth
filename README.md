@@ -1,6 +1,23 @@
+# NOTE: This crate is not yet fully developed, and may be buggy. NOT recommended for production use.
+
 # Yew LMTH
 
 A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) application, highly inspired by [Sycamore](https://sycamore-rs.netlify.app) and [Dioxus](https://dioxuslabs.com/). It works by translating it into a corresponding `yew::prelude::html!()` macro.
+
+## Features
+
+- **Basic Tags**
+  - [x] **Types**: built-in, component, generic, void (non-closing).
+  - [x] **Attributes**: string literal, expression or code block binding.
+  - [x] **Content**: tag children, string literal, or code block.
+- **Yew**
+  - [x] **[Fragment tag](https://yew.rs/docs/concepts/html/fragments)**: `! { ... }`
+  - [ ] **[Conditional rendering](https://yew.rs/docs/concepts/html/conditional-rendering)**: NOT YET IMPLEMENTED
+  - [ ] **[Dynamic tag names](https://yew.rs/docs/concepts/html/elements#dynamic-tag-names)**: NOT YET IMPLEMENTED
+  - [ ] **[List rendering](https://yew.rs/docs/concepts/html/lists)**: not tested
+- **Others**
+  - [ ] **[Tag classes](https://yew.rs/docs/concepts/html/classes)**: not tested
+  - [ ] **[Inner HTML](https://github.com/yewstack/yew/tree/master/examples/inner_html)**: NOT IMPLEMENTED
 
 ## Syntax
 
@@ -34,6 +51,8 @@ Attributes are separated by commas: `tag (attr: val, attr: val, ...) { ... }`
 | `tag ...`       | Tag                       | corresponding tag |
 
 ## Example
+
+Please refer to [GitHub repo's examples folder](https://github.com/Saplyn/yew-lmth/tree/main/examples).
 
 ```rust
 use yew_lmth::lmth;
