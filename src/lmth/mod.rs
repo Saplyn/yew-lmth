@@ -87,6 +87,12 @@ fn elem_act(elem: Elem) -> TokenStream {
         (ElemTag::Custom(comp), attrs, None) => quote! {
             <#comp #attrs />
         },
+        (ElemTag::Dynamic(block), attrs, Some(content)) => quote! {
+            <@#block #attrs> #content </@>
+        },
+        (ElemTag::Dynamic(block), attrs, None) => quote! {
+            <@#block #attrs />
+        },
         (ElemTag::Fragment, _, Some(content)) => quote! {
             <> #content </>
         },

@@ -6,7 +6,7 @@ use syn::{
     parenthesized,
     parse::{Parse, ParseStream},
     token::{self, Brace},
-    Block, Expr, Ident, LitStr, Token, Type,
+    Expr, ExprBlock, Ident, LitStr, Token, Type,
 };
 
 use super::ir::{
@@ -20,7 +20,7 @@ impl LmthNode {
     fn peek_type(input: ParseStream) -> Option<LmthNodeType> {
         let input = input.fork();
 
-        if input.peek(Ident::peek_any) || input.peek(Token![!]) {
+        if input.peek(Ident::peek_any) || input.peek(Token![!]) || input.peek(Token![@]) {
             Some(LmthNodeType::Elem)
         } else if input.peek(Brace) {
             Some(LmthNodeType::Block)
@@ -38,7 +38,9 @@ impl Parse for LmthNode {
             Some(LmthNodeType::Elem) => Ok(Self::Elem(input.parse()?)),
             Some(LmthNodeType::Block) => Ok(Self::Block(input.parse()?)),
             Some(LmthNodeType::LitStr) => Ok(Self::LitStr(input.parse()?)),
-            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // FIXME
+            None => Err(input.error(
+                "Invalid syntax encountered: Expected a tag element, a code block, or a literal string.",
+            )),
         }
     }
 }
@@ -92,6 +94,8 @@ impl ElemTag {
 
         if input.peek(Token![!]) {
             Some(ElemTagType::Fragment)
+        } else if input.peek(Token![@]) {
+            Some(ElemTagType::Dynamic)
         } else if input.peek(Ident::peek_any) {
             if input.peek2(Token![<]) {
                 Some(ElemTagType::Custom)
@@ -113,7 +117,13 @@ impl Parse for ElemTag {
                 input.parse::<Token![!]>()?;
                 Ok(Self::Fragment)
             }
-            None => Err(input.error("Invalid syntax encountered! You may want to open an issue to help us provide better error messages.")), // FIXME
+            Some(ElemTagType::Dynamic) => {
+                input.parse::<Token![@]>()?;
+                Ok(Self::Dynamic(ExprBlock::parse(input)?))
+            }
+            None => Err(input.error(
+                "Invalid tag: Expected a valid element tag, a dynamic named tag, or a fragment.",
+            )),
         }
     }
 }
@@ -166,7 +176,7 @@ impl Parse for ElemAttrCopy {
 impl Parse for ElemAttrVal {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         if input.peek(token::Brace) {
-            Ok(Self::Block(Block::parse(input)?))
+            Ok(Self::Block(ExprBlock::parse(input)?))
         } else {
             Ok(Self::Expr(Expr::parse(input)?))
         }

@@ -397,3 +397,26 @@ fn attr_bind() {
 
     assert_eq!(output, desired);
 }
+
+#[test]
+/// @{format!("h{}", level)} (class="title") {
+///     "dyn tag"
+/// }
+fn dyn_tag() {
+    let output = token_str(lmth(quote! {
+        @{format!("h{}", level)} (class="title") {
+            "dyn tag"
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            <@{format!("h{}", level)} class="title">{ "dyn tag" }</@>
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}

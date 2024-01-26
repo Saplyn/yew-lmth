@@ -1,7 +1,7 @@
 //! Intermediate representation for `lmth!` macro syntax.
 
 use proc_macro2::Ident;
-use syn::{Block, Expr, LitStr, Type};
+use syn::{Expr, ExprBlock, LitStr, Type};
 
 /// A node of `lmth!` macro.
 #[derive(Debug)]
@@ -9,7 +9,7 @@ pub enum LmthNode {
     /// e.g. `tag ( ... ) { ... }`
     Elem(Elem),
     /// e.g. `{ expr; expr; expr }`
-    Block(Block),
+    Block(ExprBlock),
     /// e.g. `"litstr"`
     LitStr(LitStr),
 }
@@ -40,6 +40,8 @@ pub enum ElemTag {
     Regular(Ident),
     /// e.g. App (`<App></App>`), Switch<Route> (`<Switch<Route> />`)
     Custom(Type),
+    /// e.g. @{code} (`<@{code}></@>`)
+    Dynamic(ExprBlock),
     /// yew's fragments ! (empty tag `<></>`)
     Fragment,
 }
@@ -48,6 +50,7 @@ pub enum ElemTag {
 pub enum ElemTagType {
     Regular,
     Custom,
+    Dynamic,
     Fragment,
 }
 
@@ -86,5 +89,5 @@ pub enum ElemAttrVal {
     /// `attr: expr`, `attr: "lit"`
     Expr(Expr),
     /// `attr: { expr; expr; expr }`
-    Block(Block),
+    Block(ExprBlock),
 }
