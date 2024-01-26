@@ -11,11 +11,10 @@ A macro crate for writing HTML-like syntax for [Yew](https://yew.rs/) applicatio
 - **Yew**
   - [x] **[Fragment tag](https://yew.rs/docs/concepts/html/fragments)**: `! { ... }`
   - [x] **[Dynamic tag names](https://yew.rs/docs/concepts/html/elements#dynamic-tag-names)**: `@{expr} ( ... ) { ... }`
-  - [ ] **[Conditional rendering](https://yew.rs/docs/concepts/html/conditional-rendering)**: NOT YET IMPLEMENTED
-  - [ ] **[List rendering](https://yew.rs/docs/concepts/html/lists)**: not tested
+  - [x] **[Conditional rendering](https://yew.rs/docs/concepts/html/conditional-rendering)**: `if ... { ... } else { ... }`, `if let ... { ... } else { ... }`
 - **Others**
+  - [ ] **[List rendering](https://yew.rs/docs/concepts/html/lists)**: not tested
   - [ ] **[Tag classes](https://yew.rs/docs/concepts/html/classes)**: not tested
-  - [ ] **[Inner HTML](https://github.com/yewstack/yew/tree/master/examples/inner_html)**: NOT IMPLEMENTED
 
 ## Syntax
 
