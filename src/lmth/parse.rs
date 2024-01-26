@@ -141,7 +141,7 @@ impl Parse for ElemAttr {
         } else {
             let ident = Ident::parse_any(input)?;
             if !input.is_empty() {
-                Err(input.error("expected `:` or `=` for attribute binding, or `,` or nothing for shorthand attribute"))
+                Err(input.error("expected `:` or `=` for attribute binding, or `,` or nothing (last attribute) for shorthand attribute"))
             } else {
                 Ok(Self::Sugar(ident))
             }
