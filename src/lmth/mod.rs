@@ -3,9 +3,9 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use crate::lmth::ir::{ElemAttr, ElemAttrVal, ElemTag};
+use crate::lmth::ir::{ElemAttr, ElemAttrVal, ElemTag, IfCond};
 
-use self::ir::{Elem, ElemAttrBind, ElemAttrCopy, LmthNode};
+use self::ir::{Elem, ElemAttrBind, ElemAttrCopy, IfLetCond, LmthNode};
 
 pub mod ir;
 pub mod parse;
@@ -32,6 +32,8 @@ fn node_act(node: LmthNode) -> TokenStream {
         LmthNode::LitStr(litstr) => quote! {
             { #litstr }
         },
+        LmthNode::IfCond(if_cond) => if_act(if_cond),
+        LmthNode::IfLetCond(if_let_cond) => if_let_act(if_let_cond),
     }
 }
 
@@ -99,5 +101,100 @@ fn elem_act(elem: Elem) -> TokenStream {
         (ElemTag::Fragment, _, None) => quote! {
             <> </>
         },
+    }
+}
+
+fn if_act(if_cond: IfCond) -> TokenStream {
+    let IfCond {
+        cond,
+        then_branch,
+        else_branch,
+    } = if_cond;
+
+    let mut quoted_then_branch = quote! {};
+    for node in then_branch {
+        let quoted_node = node_act(node);
+        quoted_then_branch = quote! {
+            #quoted_then_branch
+            #quoted_node
+        }
+    }
+
+    let quoted_else_branch = if let Some(else_branch) = else_branch {
+        let mut quoted_else_branch = quote! {};
+        for node in else_branch {
+            let quoted_node = node_act(node);
+            quoted_else_branch = quote! {
+                #quoted_else_branch
+                #quoted_node
+            }
+        }
+        Some(quoted_else_branch)
+    } else {
+        None
+    };
+
+    if let Some(quoted_else_branch) = quoted_else_branch {
+        quote! {
+            if #cond {
+                #quoted_then_branch
+            } else {
+                #quoted_else_branch
+            }
+        }
+    } else {
+        quote! {
+            if #cond {
+                #quoted_then_branch
+            }
+        }
+    }
+}
+
+fn if_let_act(if_let_cond: IfLetCond) -> TokenStream {
+    let IfLetCond {
+        pat,
+        expr,
+        then_branch,
+        else_branch,
+    } = if_let_cond;
+
+    let mut quoted_then_branch = quote! {};
+    for node in then_branch {
+        let quoted_node = node_act(node);
+        quoted_then_branch = quote! {
+            #quoted_then_branch
+            #quoted_node
+        }
+    }
+
+    let quoted_else_branch = if let Some(else_branch) = else_branch {
+        let mut quoted_else_branch = quote! {};
+        for node in else_branch {
+            let quoted_node = node_act(node);
+            quoted_else_branch = quote! {
+                #quoted_else_branch
+                #quoted_node
+            }
+        }
+        Some(quoted_else_branch)
+    } else {
+        None
+    };
+
+    if let Some(quoted_else_branch) = quoted_else_branch {
+        quote! {
+            if let #pat = #expr {
+                #quoted_then_branch
+            } else {
+                #quoted_else_branch
+            }
+        }
+    } else {
+        quote! {
+            if let #pat = #expr {
+                #quoted_then_branch
+            }
+        }
     }
 }

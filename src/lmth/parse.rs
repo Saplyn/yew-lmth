@@ -6,12 +6,12 @@ use syn::{
     parenthesized,
     parse::{Parse, ParseStream},
     token::{self, Brace},
-    Expr, ExprBlock, Ident, LitStr, Token, Type,
+    Expr, ExprBlock, Ident, LitStr, Pat, Token, Type,
 };
 
 use super::ir::{
-    Elem, ElemAttr, ElemAttrBind, ElemAttrCopy, ElemAttrVal, ElemTag, ElemTagType, LmthNode,
-    LmthNodeType,
+    Elem, ElemAttr, ElemAttrBind, ElemAttrCopy, ElemAttrVal, ElemTag, ElemTagType, IfCond,
+    IfLetCond, LmthNode, LmthNodeType,
 };
 
 //~ impl for LmthNode
@@ -20,7 +20,13 @@ impl LmthNode {
     fn peek_type(input: ParseStream) -> Option<LmthNodeType> {
         let input = input.fork();
 
-        if input.peek(Ident::peek_any) || input.peek(Token![!]) || input.peek(Token![@]) {
+        if input.peek(Token![if]) {
+            if input.peek2(Token![let]) {
+                Some(LmthNodeType::IfLetCond)
+            } else {
+                Some(LmthNodeType::IfCond)
+            }
+        } else if input.peek(Ident::peek_any) || input.peek(Token![!]) || input.peek(Token![@]) {
             Some(LmthNodeType::Elem)
         } else if input.peek(Brace) {
             Some(LmthNodeType::Block)
@@ -41,6 +47,8 @@ impl Parse for LmthNode {
             None => Err(input.error(
                 "Invalid syntax encountered: Expected a tag element, a code block, or a literal string.",
             )),
+            Some(LmthNodeType::IfCond) => Ok(Self::IfCond(input.parse()?)),
+            Some(LmthNodeType::IfLetCond) => Ok(Self::IfLetCond(input.parse()?)),
         }
     }
 }
@@ -180,5 +188,85 @@ impl Parse for ElemAttrVal {
         } else {
             Ok(Self::Expr(Expr::parse(input)?))
         }
+    }
+}
+
+//~ impl for IfCond
+
+impl Parse for IfCond {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        input.parse::<Token![if]>()?;
+        let cond = input.parse()?;
+        let then_branch = {
+            let mut then_branch = Vec::new();
+            let raw_then_branch;
+            braced!(raw_then_branch in input);
+            while !raw_then_branch.is_empty() {
+                then_branch.push(raw_then_branch.parse()?);
+            }
+            then_branch
+        };
+
+        let else_branch = if input.peek(Token![else]) {
+            input.parse::<Token![else]>()?;
+            let mut else_branch = Vec::new();
+            let raw_else_branch: syn::parse::ParseBuffer<'_>;
+            braced!(raw_else_branch in input);
+            while !raw_else_branch.is_empty() {
+                else_branch.push(raw_else_branch.parse()?);
+            }
+            Some(else_branch)
+        } else {
+            None
+        };
+
+        Ok(Self {
+            cond,
+            then_branch,
+            else_branch,
+        })
+    }
+}
+
+//~ impl for IfLetCond
+
+impl Parse for IfLetCond {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        input.parse::<Token![if]>()?;
+        input.parse::<Token![let]>()?;
+
+        let pat = Pat::parse_single(input)?;
+        input.parse::<Token![=]>()?;
+        let expr = Expr::parse_without_eager_brace(input)?;
+
+        let then_branch = {
+            let mut then_branch = Vec::new();
+            let raw_then_branch;
+            braced!(raw_then_branch in input);
+            while !raw_then_branch.is_empty() {
+                then_branch.push(raw_then_branch.parse()?);
+            }
+            then_branch
+        };
+
+        let else_branch = if input.peek(Token![else]) {
+            input.parse::<Token![else]>()?;
+            let mut else_branch = Vec::new();
+            let raw_else_branch: syn::parse::ParseBuffer<'_>;
+            braced!(raw_else_branch in input);
+            while !raw_else_branch.is_empty() {
+                else_branch.push(raw_else_branch.parse()?);
+            }
+            Some(else_branch)
+        } else {
+            None
+        };
+
+        Ok(Self {
+            pat,
+            expr,
+            then_branch,
+            else_branch,
+        })
     }
 }

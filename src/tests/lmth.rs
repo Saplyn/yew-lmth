@@ -422,21 +422,27 @@ fn dyn_tag() {
 }
 
 #[test]
-/// if true {
-///     p { "true" }
+/// ! {
+///     if true {
+///         p { "true" }
+///     }
 /// }
 fn if_render() {
     let output = token_str(lmth(quote! {
-        if true {
-            p { "true" }
+        ! {
+            if true {
+                p { "true" }
+            }
         }
     }));
 
     let desired = token_str(quote! {
         yew::prelude::html! {
-            if true {
-                <p>{ "true" }</p>
-            }
+            <>
+                if true {
+                    <p>{ "true" }</p>
+                }
+            </>
         }
     });
 
@@ -447,27 +453,33 @@ fn if_render() {
 }
 
 #[test]
-/// if false {
-///     p { "true" }
-/// } else {
-///     p { "false" }
+/// ! {
+///      if false {
+///          p { "true" }
+///      } else {
+///          p { "false" }
+///      }
 /// }
 fn if_else_render() {
     let output = token_str(lmth(quote! {
-        if false {
-            p { "true" }
-        } else {
-            p { "false" }
+        ! {
+            if false {
+                p { "true" }
+            } else {
+                p { "false" }
+            }
         }
     }));
 
     let desired = token_str(quote! {
         yew::prelude::html! {
-            if false {
-                <p>{ "true" }</p>
-            } else {
-                <p>{ "false" }</p>
-            }
+            <>
+                if false {
+                    <p>{ "true" }</p>
+                } else {
+                    <p>{ "false" }</p>
+                }
+            </>
         }
     });
 
@@ -478,21 +490,27 @@ fn if_else_render() {
 }
 
 #[test]
-/// if let Some(text) = some_text {
-///     p { text }
+/// ! {
+///     if let Some(text) = some_text {
+///         p { "some" }
+///     }
 /// }
 fn if_let_render() {
     let output = token_str(lmth(quote! {
-        if let Some(text) = some_text {
-            p { text }
+        ! {
+            if let Some(text) = some_text {
+                p { "some" }
+            }
         }
     }));
 
     let desired = token_str(quote! {
         yew::prelude::html! {
-            if let Some(text) = some_text {
-                <p>{ text }</p>
-            }
+            <>
+                if let Some(text) = some_text {
+                    <p>{ "some" }</p>
+                }
+            </>
         }
     });
 
@@ -503,27 +521,33 @@ fn if_let_render() {
 }
 
 #[test]
-/// if let Some(text) = some_text {
-///     p { text }
-/// } else {
-///     p { "none" }
+/// ! {
+///     if let Some(text) = some_text {
+///         p { "some" }
+///     } else {
+///         p { "none" }
+///     }
 /// }
 fn if_let_else_render() {
     let output = token_str(lmth(quote! {
-        if let Some(text) = some_text {
-            p { text }
-        } else {
-            p { "none" }
+        ! {
+            if let Some(text) = some_text {
+                p { "some" }
+            } else {
+                p { "none" }
+            }
         }
     }));
 
     let desired = token_str(quote! {
         yew::prelude::html! {
-            if let Some(text) = some_text {
-                <p>{ text }</p>
-            } else {
-                <p>{ "none" }</p>
-            }
+            <>
+                if let Some(text) = some_text {
+                    <p>{ "some" }</p>
+                } else {
+                    <p>{ "none" }</p>
+                }
+            </>
         }
     });
 

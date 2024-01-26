@@ -1,7 +1,7 @@
 //! Intermediate representation for `lmth!` macro syntax.
 
 use proc_macro2::Ident;
-use syn::{Expr, ExprBlock, LitStr, Type};
+use syn::{Expr, ExprBlock, LitStr, Pat, Type};
 
 /// A node of `lmth!` macro.
 #[derive(Debug)]
@@ -12,6 +12,10 @@ pub enum LmthNode {
     Block(ExprBlock),
     /// e.g. `"litstr"`
     LitStr(LitStr),
+    /// e.g. `if cond {} else {}`
+    IfCond(IfCond),
+    /// e.g. `if let Some(x) = opt {} else {}`
+    IfLetCond(IfLetCond),
 }
 
 /// Type of `LmthNode`.
@@ -20,6 +24,8 @@ pub enum LmthNodeType {
     Elem,
     Block,
     LitStr,
+    IfCond,
+    IfLetCond,
 }
 
 /// An element.
@@ -90,4 +96,28 @@ pub enum ElemAttrVal {
     Expr(Expr),
     /// `attr: { expr; expr; expr }`
     Block(ExprBlock),
+}
+
+/// An `if` condition.
+#[derive(Debug)]
+pub struct IfCond {
+    /// `if `**`cond`**` {} else {}`
+    pub cond: Expr,
+    /// `if cond `**`{}`**` else {}`
+    pub then_branch: Vec<LmthNode>,
+    /// `if cond {} else `**`{}`**
+    pub else_branch: Option<Vec<LmthNode>>,
+}
+
+/// An `if let` condition.
+#[derive(Debug)]
+pub struct IfLetCond {
+    /// `let `**`Some(x)`**` = opt {} else {}`
+    pub pat: Pat,
+    /// `let Some(x) = `**`opt`**` {} else {}`
+    pub expr: Expr,
+    /// `let Some(x) = opt `**`{}`**` else {}`
+    pub then_branch: Vec<LmthNode>,
+    /// `let Some(x) = opt {} else `**`{}`**
+    pub else_branch: Option<Vec<LmthNode>>,
 }
