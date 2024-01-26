@@ -420,3 +420,115 @@ fn dyn_tag() {
 
     assert_eq!(output, desired);
 }
+
+#[test]
+/// if true {
+///     p { "true" }
+/// }
+fn if_render() {
+    let output = token_str(lmth(quote! {
+        if true {
+            p { "true" }
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            if true {
+                <p>{ "true" }</p>
+            }
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
+
+#[test]
+/// if false {
+///     p { "true" }
+/// } else {
+///     p { "false" }
+/// }
+fn if_else_render() {
+    let output = token_str(lmth(quote! {
+        if false {
+            p { "true" }
+        } else {
+            p { "false" }
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            if false {
+                <p>{ "true" }</p>
+            } else {
+                <p>{ "false" }</p>
+            }
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
+
+#[test]
+/// if let Some(text) = some_text {
+///     p { text }
+/// }
+fn if_let_render() {
+    let output = token_str(lmth(quote! {
+        if let Some(text) = some_text {
+            p { text }
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            if let Some(text) = some_text {
+                <p>{ text }</p>
+            }
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
+
+#[test]
+/// if let Some(text) = some_text {
+///     p { text }
+/// } else {
+///     p { "none" }
+/// }
+fn if_let_else_render() {
+    let output = token_str(lmth(quote! {
+        if let Some(text) = some_text {
+            p { text }
+        } else {
+            p { "none" }
+        }
+    }));
+
+    let desired = token_str(quote! {
+        yew::prelude::html! {
+            if let Some(text) = some_text {
+                <p>{ text }</p>
+            } else {
+                <p>{ "none" }</p>
+            }
+        }
+    });
+
+    eprintln!("output: {:?}", output);
+    eprintln!("desired: {:?}", desired);
+
+    assert_eq!(output, desired);
+}
