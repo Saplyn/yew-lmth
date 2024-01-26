@@ -44,7 +44,7 @@ mod lmth;
 #[cfg(test)]
 mod tests;
 
-/// Macro for writing HTML-like syntax, which will be translated
+/// Macro for writing HTML-like syntax. It works by translating it
 /// into a corresponding `yew::prelude::html!()` macro.
 ///
 /// # Example
