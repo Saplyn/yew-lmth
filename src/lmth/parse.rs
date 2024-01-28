@@ -196,7 +196,7 @@ impl Parse for ElemAttrVal {
 impl Parse for IfCond {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         input.parse::<Token![if]>()?;
-        let cond = input.parse()?;
+        let cond = input.call(Expr::parse_without_eager_brace)?;
         let then_branch = {
             let mut then_branch = Vec::new();
             let raw_then_branch;
