@@ -26,4 +26,5 @@ members = [
     "examples/hello_world",
     "examples/routing",
     "examples/cond",
+    "examples/list",
 ]
